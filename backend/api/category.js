@@ -80,6 +80,17 @@ module.exports = app => {
         return categoriesWithPath
     }
 
+    const toTree = (categories,tree) => {
+        if(!tree) tree = categories.map(categories => !categories.parentId)
+
+        tree = tree.map(parentNode =>{
+            const isChild = node => node.parentId == parentNode.id
+            parentNode.children = toTree(categories,categories.filter(isChild)) 
+            return parentNode
+        })
+        return tree
+    }
+
     const get = (req,res) =>{
                 app.db('categories')
                    .then(categories => res.json(withPath(categories)))
@@ -93,5 +104,11 @@ module.exports = app => {
                 .catch(err => res.status(500).send(err))
     }
 
-    return {save, remove, get, getById}
+    const getTree = (req,res) => {
+            app.db('categories')
+            .then(category => res.json(toTree(category)))
+            .catch(err => res.status(500).send(err))
+    }
+
+    return {save, remove, get, getById,getTree}
 }
