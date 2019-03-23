@@ -13,6 +13,9 @@ module.exports = app =>{
 
         if (req.params.id) user.id = req.params.id
 
+        if(!req.originaUrl.startsWith('/users')) user.admin = false
+        if(!req.params.admin || !req.user) user.admin = false
+
         try{
             existsOrError(user.name,'Usuario não informado!')
             existsOrError(user.email,'Email não informado!')
@@ -52,6 +55,7 @@ module.exports = app =>{
     const get = (req,res) => {
         app.db('users')
             .select('id','name','email','admin')
+            .whereNull('deletedAt')
             .then(users => res.json(users))
             .catch(err => res.status(500).send(err))
     }
@@ -60,10 +64,29 @@ module.exports = app =>{
         app.db('users')
             .select('id','name','email','admin')
             .where({id:req.params.id})
+            .whereNull('deletedAt')
             .first()
             .then(users => res.json(users))
             .catch(err => res.status(500).send(err))
     }
 
-    return {save, get, getById}
+    const remove = async (req,res) => {
+        try {
+            const articles = await app.db('articles')
+                                      .where({userId:req.params.id})
+            notExistsOrError(articles,'Usúario possui artigos')
+
+            const rowsUpdate = await app.db('users')
+                                        .update({deletedAt: new Date()})
+                                        .where({id:req.params.id})
+                                        
+            existsOrError(rowsUpdate, 'Usúario não foi encontrado!' )
+
+            res.status(204).send()
+        } catch (msg) {
+            res.status(500).send(msg)
+        }
+    }
+
+    return {save, get, getById, remove}
 }
