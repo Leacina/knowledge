@@ -1,6 +1,8 @@
 <template>
 	<div id="app" :class="{'hide-menu' : !isMenuVisible}">
-		<Header title="Xadrez Içara - Base de conhecimento" :hideToggle="false" />
+		<Header title="Xadrez Içara - Base de conhecimento" 
+		:hideToggle="false" 
+		:hideUserDropdown="false"/>
 		<Menu/>
 		<Content/>
 		<Footer/>

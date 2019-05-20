@@ -1,21 +1,25 @@
 <template>
-    <div class = "header">
-
+    <header class = "header">
         <a class = "toggle">
           <i class="fa fa-lg" :class="icon" @click="toggleMenu" v-if="!hideToggle"></i>
         </a>
         <h1 class = "title">
             {{title}}
         </h1>
-    </div>
+        <UserDropdown v-if="!hideUserDropdown"/>
+    </header>
 </template>
 
 <script>
+import UserDropdown from "./UserDropdown.vue"
+
 export default {
     name : "Header",
+    components:{UserDropdown},
     props:{
         title : String,
-        hideToggle:Boolean
+        hideToggle:Boolean,
+        hideUserDropdown:Boolean
     },
     computed : { 
         icon(){
@@ -53,7 +57,7 @@ export default {
         text-decoration: none;
     }    
 
-    a.toggle{
+    header.header > a.toggle{
         width: 60px;
         height: 100%;
         color: #fff;
@@ -65,7 +69,8 @@ export default {
         align-items: center;
     }
 
-    a.toggle:hover{
+     header.header > a.toggle:hover{
+        color: #fff;
         background-color: rgba(0, 0, 0, 0.2);
     }
 </style>
