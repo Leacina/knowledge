@@ -2,7 +2,6 @@
     <div class="home">
         <PageTitle icon="fa fa-home" main="DashBoard"
             sub="Base de conhecimento"/>
-            <h1>DAEE</h1>
     </div>
 </template>
 

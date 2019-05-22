@@ -9,18 +9,19 @@ Vue.use(VueRouter)
 const routes = [{
     name:'home',
     path:'/',
-    components : Home
+    component : Home
 },{
     name:'adminPages',
     path:'/admin',
-    components:AdminPages
+    component : AdminPages
 }
 ]
 
-export default new VueRouter(
+const router = new VueRouter(
     {
         mode:'history',
         routes
     }
 )
 
+export default router

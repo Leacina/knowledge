@@ -4,7 +4,7 @@
           <i class="fa fa-lg" :class="icon" @click="toggleMenu" v-if="!hideToggle"></i>
         </a>
         <h1 class = "title">
-            {{title}}
+            <router-link to="/" class="title">{{title}}</router-link>
         </h1>
         <UserDropdown v-if="!hideUserDropdown"/>
     </header>
@@ -73,4 +73,5 @@ export default {
         color: #fff;
         background-color: rgba(0, 0, 0, 0.2);
     }
+
 </style>
