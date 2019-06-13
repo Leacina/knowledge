@@ -24,7 +24,7 @@ module.exports = app => {
     app.route('/categories/tree')
         .all(app.config.passport.authenticate())
         .get(app.api.category.getTree)
-
+   
     app.route('/categories/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.category.getById)
